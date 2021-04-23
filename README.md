@@ -5,7 +5,7 @@
 The requirement is python >= 3.6. We could use conda to manage the environment. Run the following:
 
 ```bash
-conda create --name p2p python==3.6
+conda create --name p2p python=3.6
 conda activate p2p
 pip install p2pnetwork
 ```
