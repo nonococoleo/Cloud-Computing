@@ -6,13 +6,6 @@ import random
 import hashlib
 import json
 
-"""
-Author : Maurice Snoeren <macsnoeren(at)gmail.com>
-Version: 0.3 beta (use at your own risk)
-Date: 7-5-2020
-
-Python package p2pnet for implementing decentralized peer-to-peer network applications
-"""
 class NodeConnection(threading.Thread):
     """The class NodeConnection is used by the class Node and represent the TCP/IP socket connection with another node. 
        Both inbound (nodes that connect with the server) and outbound (nodes that are connected to) are represented by

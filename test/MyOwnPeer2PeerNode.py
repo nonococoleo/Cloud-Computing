@@ -1,9 +1,3 @@
-#######################################################################################################################
-# Author: Maurice Snoeren                                                                                             #
-# Version: 0.1 beta (use at your own risk)                                                                            #
-#                                                                                                                     #
-# MyOwnPeer2PeerNode is an example how to use the p2pnet.Node to implement your own peer-to-peer network node.        #
-#######################################################################################################################
 from p2pnetwork.node import Node
 
 class MyOwnPeer2PeerNode (Node):
