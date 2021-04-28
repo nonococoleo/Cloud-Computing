@@ -5,7 +5,18 @@ import threading
 import random
 import hashlib
 import json
+import base64
+from PIL import Image
+from io import BytesIO
+import datetime
 
+"""
+Author : Maurice Snoeren <macsnoeren(at)gmail.com>
+Version: 0.3 beta (use at your own risk)
+Date: 7-5-2020
+
+Python package p2pnet for implementing decentralized peer-to-peer network applications
+"""
 class NodeConnection(threading.Thread):
     """The class NodeConnection is used by the class Node and represent the TCP/IP socket connection with another node. 
        Both inbound (nodes that connect with the server) and outbound (nodes that are connected to) are represented by
@@ -90,15 +101,28 @@ class NodeConnection(threading.Thread):
         """Parse the packet and determines wheter it has been send in str, json or byte format. It returns
            the according data."""
         try:
+            # try to decode with utf-8 
             packet_decoded = packet.decode('utf-8')
-
             try:
-                return json.loads(packet_decoded)
+                # try if can be converted into an image
+                im = Image.open(BytesIO(base64.b64decode(packet_decoded)))
+                curTime = datetime.datetime.now().strftime("%I:%M%p%d%B%Y")
+                #this is the file path to store image received, change it
+                #according to your own environment
+                imageFile = '/home/ubuntu/python-p2p-network/images/Img'+curTime+'.jpg'
+                im.save(imageFile)
+                return imageFile + " received"
+            except:
+                # if cannnot be converted into an image, try json
+                try:
+                    return json.loads(packet_decoded)
 
-            except json.decoder.JSONDecodeError:
-                return packet_decoded
+                except json.decoder.JSONDecodeError:
+                    # if still not, then the data received is just a string
+                    return packet_decoded
 
         except UnicodeDecodeError:
+            # data received cannot be deceoded
             return packet
 
     # Required to implement the Thread. This is the main loop of the node client.
