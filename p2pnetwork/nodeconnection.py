@@ -13,6 +13,8 @@ Date: 7-5-2020
 
 Python package p2pnet for implementing decentralized peer-to-peer network applications
 """
+
+
 class NodeConnection(threading.Thread):
     """The class NodeConnection is used by the class Node and represent the TCP/IP socket connection with another node. 
        Both inbound (nodes that connect with the server) and outbound (nodes that are connected to) are represented by
@@ -53,35 +55,29 @@ class NodeConnection(threading.Thread):
         # Datastore to store additional information concerning the node.
         self.info = {}
 
-        self.main_node.debug_print("NodeConnection.send: Started with client (" + self.id + ") '" + self.host + ":" + str(self.port) + "'")
+        self.main_node.logger.debug(
+            "NodeConnection.send: Started with client (" + self.id + ") '" + self.host + ":" + str(self.port) + "'")
 
     def send(self, data, encoding_type='utf-8'):
         """Send the data to the connected node. The data can be pure text (str), dict object (send as json) and bytes object.
            When sending bytes object, it will be using standard socket communication. A end of transmission character 0x04 
            utf-8/ascii will be used to decode the packets ate the other node."""
-        if isinstance(data, str):
-            self.sock.sendall( data.encode(encoding_type) + self.EOT_CHAR )
-
-        elif isinstance(data, dict):
+        if isinstance(data, dict):
             try:
                 json_data = json.dumps(data)
                 json_data = json_data.encode(encoding_type) + self.EOT_CHAR
                 self.sock.sendall(json_data)
 
-            except TypeError as type_error:
-                self.main_node.debug_print('This dict is invalid')
-                self.main_node.debug_print(type_error)
-
             except Exception as e:
-                print('Unexpected Error in send message')
-                print(e)
+                self.main_node.logger.error(str(e))
 
         elif isinstance(data, bytes):
             bin_data = data + self.EOT_CHAR
             self.sock.sendall(bin_data)
 
         else:
-            self.main_node.debug_print('datatype used is not valid plese use str, dict (will be send as json) or bytes')
+            self.main_node.logger.error(
+                'datatype used is not valid plese use str, dict (will be send as json) or bytes')
 
     # This method should be implemented by yourself! We do not know when the message is
     # correct.
@@ -99,36 +95,34 @@ class NodeConnection(threading.Thread):
         try:
             packet_decoded = packet.decode('utf-8')
 
-            try:
-                return json.loads(packet_decoded)
+            return json.loads(packet_decoded)
 
-            except json.decoder.JSONDecodeError:
-                return packet_decoded
-
-        except UnicodeDecodeError:
-            return packet
+        except Exception as e:
+            raise e
 
     # Required to implement the Thread. This is the main loop of the node client.
     def run(self):
         """The main loop of the thread to handle the connection with the node. Within the
            main loop the thread waits to receive data from the node. If data is received 
            the method node_message will be invoked of the main node to be processed."""
-        self.sock.settimeout(10.0)          
-        buffer = b'' # Hold the stream that comes in!
+        # self.sock.settimeout(10.0)
+        buffer = b''  # Hold the stream that comes in!
 
         while not self.terminate_flag.is_set():
             chunk = b''
 
             try:
-                chunk = self.sock.recv(4096) 
+                chunk = self.sock.recv(4096)
 
             except socket.timeout:
-                self.main_node.debug_print("NodeConnection: timeout")
+                self.main_node.logger.warning("NodeConnection: timeout")
+
+            except OSError:
+                self.terminate_flag.set()
 
             except Exception as e:
                 self.terminate_flag.set()
-                self.main_node.debug_print('Unexpected error')
-                self.main_node.debug_print(e)
+                self.main_node.logger.error(str(e))
 
             # BUG: possible buffer overflow when no EOT_CHAR is found => Fix by max buffer count or so?
             if chunk != b'':
@@ -140,26 +134,34 @@ class NodeConnection(threading.Thread):
                     buffer = buffer[eot_pos + 1:]
 
                     self.main_node.message_count_recv += 1
-                    self.main_node.node_message( self, self.parse_packet(packet) )
+                    message = self.parse_packet(packet)
+                    if message["type"] == "shutdown":
+                        self.terminate_flag.set()
+                        break
+                    message["from"] = self.id
+                    message["time"] = time.time()
+                    self.main_node.node_message(self, message)
 
                     eot_pos = buffer.find(self.EOT_CHAR)
 
             time.sleep(0.01)
 
-        # IDEA: Invoke (event) a method in main_node so the user is able to send a bye message to the node before it is closed?
-
-        self.sock.settimeout(None)
+        # # IDEA: Invoke (event) a method in main_node so the user is able to send a bye message to the node before it is closed?
+        #
+        # self.sock.settimeout(None)
         self.sock.close()
-        self.main_node.debug_print("NodeConnection: Stopped")
+        self.main_node.logger.debug("NodeConnection: Stopped")
 
-    def set_info(self, key, value):
-        self.info[key] = value
-
-    def get_info(self, key):
-        return self.info[key]
+    # def set_info(self, key, value):
+    #     self.info[key] = value
+    #
+    # def get_info(self, key):
+    #     return self.info[key]
 
     def __str__(self):
-        return 'NodeConnection: {}:{} <-> {}:{} ({})'.format(self.main_node.host, self.main_node.port, self.host, self.port, self.id)
+        return 'NodeConnection: {}:{} <-> {}:{} ({})'.format(self.main_node.host, self.main_node.port, self.host,
+                                                             self.port, self.id)
 
     def __repr__(self):
-        return '<NodeConnection: Node {}:{} <-> Connection {}:{}>'.format(self.main_node.host, self.main_node.port, self.host, self.port)
+        return '<NodeConnection: Node {}:{} <-> Connection {}:{}>'.format(self.main_node.host, self.main_node.port,
+                                                                          self.host, self.port)

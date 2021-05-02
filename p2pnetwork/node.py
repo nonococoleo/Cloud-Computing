@@ -18,6 +18,7 @@ TODO: Variabele to limit the number of connected nodes.
 TODO: Also create events when things go wrong, like a connection with a node has failed.
 """
 
+
 class Node(threading.Thread):
     """Implements a node that is able to connect to other nodes and is able to accept connections from other nodes.
     After instantiation, the node creates a TCP/IP server with the given port.
@@ -168,8 +169,8 @@ class Node(threading.Thread):
             sock.connect((host, port))
 
             # Basic information exchange (not secure) of the id's of the nodes!
-            sock.send(self.id.encode('utf-8')) # Send my id to the connected node!
-            connected_node_id = sock.recv(4096).decode('utf-8') # When a node is connected, it sends it id!
+            sock.send(self.id.encode('utf-8'))  # Send my id to the connected node!
+            connected_node_id = sock.recv(4096).decode('utf-8')  # When a node is connected, it sends it id!
 
             thread_client = self.create_new_connection(sock, connected_node_id, host, port)
             thread_client.start()
@@ -215,18 +216,19 @@ class Node(threading.Thread):
             try:
                 self.debug_print("Node: Wait for incoming connection")
                 connection, client_address = self.sock.accept()
-                
-                # Basic information exchange (not secure) of the id's of the nodes!
-                connected_node_id = connection.recv(4096).decode('utf-8') # When a node is connected, it sends it id!
-                connection.send(self.id.encode('utf-8')) # Send my id to the connected node!
 
-                thread_client = self.create_new_connection(connection, connected_node_id, client_address[0], client_address[1])
+                # Basic information exchange (not secure) of the id's of the nodes!
+                connected_node_id = connection.recv(4096).decode('utf-8')  # When a node is connected, it sends it id!
+                connection.send(self.id.encode('utf-8'))  # Send my id to the connected node!
+
+                thread_client = self.create_new_connection(connection, connected_node_id, client_address[0],
+                                                           client_address[1])
                 thread_client.start()
 
                 self.nodes_inbound.append(thread_client)
 
                 self.inbound_node_connected(thread_client)
-                
+
             except socket.timeout:
                 self.debug_print('Node: Connection timeout!')
 
@@ -250,7 +252,7 @@ class Node(threading.Thread):
         for t in self.nodes_outbound:
             t.join()
 
-        self.sock.settimeout(None)   
+        self.sock.settimeout(None)
         self.sock.close()
         print("Node stopped")
 
