@@ -12,9 +12,6 @@ def detect_faces(photo):
     response = client.detect_faces(Image={'Bytes': photo}, Attributes=['ALL'])
     # print(response)
     return json.dumps(response)
-    for faceDetail in response['FaceDetails']:
-        print(json.dumps(faceDetail, indent=4, sort_keys=True))
-    print(len(response['FaceDetails']))
 
 
 def main(request):

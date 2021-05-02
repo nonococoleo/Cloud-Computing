@@ -21,12 +21,10 @@ if __name__ == '__main__':
 
     modules = filter(len, [s.strip() for s in args.modules.split(',')])
 
-    # Open local port, argument "True" meaning initializing server.
-    node_1 = MyOwnPeer2PeerNode(host, port, modules)
+    node = MyOwnPeer2PeerNode(host, port, modules)
 
-    # node started
-    node_1.start()
-    # node_1.connect_with_node("127.0.0.1", 10002)
+    node.start()
+    node.connect_with_node("127.0.0.1", 10000)
 
-    # node_1.send_to_nodes({"type": "test"})
-    # node_1.stop()
+    # node.send_to_nodes({"type": "test"})
+    # node.stop()
