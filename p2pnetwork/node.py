@@ -7,6 +7,17 @@ import hashlib
 
 from p2pnetwork.nodeconnection import NodeConnection
 
+"""
+Author: Maurice Snoeren <macsnoeren(at)gmail.com>
+Version: 0.3 beta (use at your own risk)
+Date: 7-5-2020
+
+Python package p2pnet for implementing decentralized peer-to-peer network applications
+
+TODO: Variabele to limit the number of connected nodes.
+TODO: Also create events when things go wrong, like a connection with a node has failed.
+"""
+
 class Node(threading.Thread):
     """Implements a node that is able to connect to other nodes and is able to accept connections from other nodes.
     After instantiation, the node creates a TCP/IP server with the given port.
@@ -22,7 +33,7 @@ class Node(threading.Thread):
                  connected_node: Which connected node caused the event.
                  data: The data that is send by the connected node."""
 
-    def __init__(self, host, port, callback=None, init=False):
+    def __init__(self, host, port, callback=None):
         """Create instance of a Node. If you want to implement the Node functionality with a callback, you should 
            provide a callback method. It is preferred to implement a new node by extending this Node class. 
             host: The host name or ip address that is used to bind the TCP/IP server to.
@@ -55,8 +66,7 @@ class Node(threading.Thread):
 
         # Start the TCP/IP server
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        if init:
-            self.init_server()
+        self.init_server()
 
         # Message counters to make sure everyone is able to track the total messages
         self.message_count_send = 0
