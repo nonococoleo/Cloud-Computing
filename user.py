@@ -26,6 +26,10 @@ if __name__ == '__main__':
     connected_node = node.connect_with_node("127.0.0.1", 10000)
 
     # IOT request
+    data = {"type": "ConnectCamera", "content": {"interval": 60}, "origin": node.id,
+            "to": connected_node.id, "id": get_md5('1')}
+
+    node.send_to_node(connected_node, data)
 
     # ML request
     file = "files/test.jpg"
