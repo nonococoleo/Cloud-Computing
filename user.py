@@ -23,7 +23,7 @@ if __name__ == '__main__':
     node = MyOwnPeer2PeerNode(host, port, [])
 
     node.start()
-    connected_node = node.connect_with_node("127.0.0.1", 10000)
+    connected_node = node.connect_with_node("127.0.0.1", 10001)
 
     # IOT request
     data = {"type": "ConnectCamera", "content": {"interval": 60}, "origin": node.id,

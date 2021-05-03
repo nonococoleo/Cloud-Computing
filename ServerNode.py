@@ -226,14 +226,15 @@ class MyOwnPeer2PeerNode(Node):
 
     def do_action(self, data):
         action = data['type']
+        message = {"to": data["origin"], "origin": self.id}
         if action in self.resources:
-            message = {"type": "result", "to": data["origin"], "origin": self.id,
-                       "request": data["id"]}
             try:
                 results = self.modules[action].main(data["content"])
                 self.logger.debug(f"action {action} results - {results}")
-                if results is not None:
-                    message["content"] = results
+
+                message["type"] = "result"
+                message["request"] = data["id"]
+                message["content"] = results
             except Exception as e:
                 message["type"] = "error"
                 message["content"] = {"error": str(e)}

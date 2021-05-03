@@ -133,7 +133,6 @@ class NodeConnection(threading.Thread):
                     packet = buffer[:eot_pos]
                     buffer = buffer[eot_pos + 1:]
 
-                    self.main_node.message_count_recv += 1
                     message = self.parse_packet(packet)
                     if message["type"] == "shutdown":
                         self.terminate_flag.set()
