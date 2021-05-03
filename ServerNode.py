@@ -150,6 +150,8 @@ class MyOwnPeer2PeerNode(Node):
             elif type == "result":
                 res = message["content"]
                 self.logger.info(f"result received for {message['request']} - {res}")
+            elif type == "error":
+                self.logger.warning(f"{message}")
             elif type in self.resources:
                 self.logger.info(f"do action {type}")
                 self.do_action(message)
@@ -233,11 +235,16 @@ class MyOwnPeer2PeerNode(Node):
                 if results is not None:
                     message["content"] = results
             except Exception as e:
+                message["type"] = "error"
                 message["content"] = {"error": str(e)}
+                self.logger.error(f"do action error {e}")
             self.send_to_node_by_id(data["origin"], message)
             return True
         else:
             self.logger.error("None available module")
+            message["type"] = "error"
+            message["content"] = {"error": "None available module"}
+            self.send_to_node_by_id(data["origin"], message)
             return False
 
     def outbound_node_connected(self, node):
