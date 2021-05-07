@@ -178,7 +178,7 @@ class Camera:
         except botocore.exceptions.ClientError as e:
             self.logger.error(str(e))
 
-        data = {"type": "image", "content": {"image": (bucket, obj_name)}, "origin": self.id,
+        data = {"type": "image", "content": {"image_file": (bucket, obj_name)}, "origin": self.id,
                 "id": get_md5(file)}
         c.publish("camera/image", json.dumps(data))
         self.logger.info("image uploaded.")

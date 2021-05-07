@@ -42,7 +42,7 @@ connected_node = node.connect_with_node("127.0.0.1", 10000)
 def send_message(message):
     data = {"type": "FaceRecognition", "content": message['content'], "origin": node.id,
             "to": connected_node.id, "id": message['id']}
-    node.send_to_node(connected_node,data)
+    node.send_to_node(connected_node, data)
 
 
 class Worker:
@@ -155,7 +155,7 @@ class Worker:
         except botocore.exceptions.ClientError as e:
             self.logger.error(str(e))
 
-        data = {"type": "Image", "content": {"image": (bucket, obj_name)}, "origin": self.id,
+        data = {"type": "Image", "content": {"image_file": (bucket, obj_name)}, "origin": self.id,
                 "id": get_md5(file)}
         c.publish("camera/image", json.dumps(data))
         self.logger.info("image uploaded.")
