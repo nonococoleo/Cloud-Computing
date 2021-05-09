@@ -6,7 +6,7 @@ network = "abs_ccprojchain_hc2885_hc2885"
 
 
 def publish(content):
-    publishDataBash = "cd ../blockchain && truffle exec {file} --network {net} {date} {arg1} {arg2} {arg3} {arg4} {arg5} {arg6} "
+    publishDataBash = "cd blockchain && truffle exec {file} --network {net} {date} {arg1} {arg2} {arg3} {arg4} {arg5} {arg6} "
     bash = publishDataBash.format(file=publishData, net=network, date=content["date"], arg1=content["visiter"]
                                   , arg2=content["male"], arg3=content["female"], arg4=content["emo_neg"],
                                   arg5=content["emo_pos"], arg6=content["emo_mild"])
@@ -16,7 +16,7 @@ def publish(content):
 
 
 def get(content):
-    getDataBash = "cd ../blockchain && truffle exec {file} --network {net} {date} {arg1}"
+    getDataBash = "cd blockchain && truffle exec {file} --network {net} {date} {arg1}"
     field = {"visiter": "1", "male": "2", "female": "3", "emo_neg": "4", "emo_pos": "5", "emo_mild": "6"}
 
     bash = getDataBash.format(file=getData, net=network, date=content["date"], arg1=field[content["field"]])

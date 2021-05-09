@@ -238,7 +238,7 @@ class MyOwnPeer2PeerNode(Node):
             except Exception as e:
                 message["type"] = "error"
                 message["content"] = {"error": str(e)}
-                self.logger.error(f"do action error {e}")
+                self.logger.error(f"do action error: {e}")
             self.send_to_node_by_id(data["origin"], message)
             return True
         else:

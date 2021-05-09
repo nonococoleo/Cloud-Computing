@@ -23,11 +23,11 @@ def detect_faces(bucket, photo):
         elif (emo == 'HAPPY'):
             tempDict['Emotions'] = 'Positive'
         else:
-            tempDict['Emotions'] = 'mild'
+            tempDict['Emotions'] = 'Mild'
         ar.append(tempDict)
         # a valid tempDict looks like {'AgeRange': 20.0, 'Gender': 'Female', 'Emotions': 'Negtive'}
 
-    res = {['faceDetail']: ar}
+    res = {'faceDetails': ar}
     return res
 
 
