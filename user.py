@@ -22,27 +22,27 @@ if __name__ == '__main__':
     node = MyOwnPeer2PeerNode(host, port, [])
 
     node.start()
-    connected_node = node.connect_with_node("127.0.0.1", 10001)
+    node.connect_with_node("127.0.0.1", 10000)
 
     # IOT request
-    data = {"type": "ConnectCamera", "content": {"interval": 60}, "origin": node.id,
-            "to": connected_node.id, "id": get_md5('1')}
+    data = {"type": "ConnectCamera", "content": {"interval": 60}, "origin": node.id}
 
-    node.send_to_node(connected_node, data)
+    node.send_to_node_with_resource(data)
 
     # ML request
-    file = "files/test.jpg"
-    with open(file, 'rb') as image:
-        img = image.read()
+    file = "files/images/1.jpg"
+    bucket = "ccsp21spring"
+    obj_name = upload_image("user", file, bucket)
 
-    base64_bytes = base64.b64encode(img)
-    base64_string = base64_bytes.decode('utf-8')
-
-    node.send_to_node(connected_node,
-                        {"type": "FaceRecognition", "content": {"image_data": base64_string}, "origin": node.id,
-                         "to": connected_node.id, "id": get_md5(base64_string)})
+    node.send_to_node_with_resource(
+        {"type": "FaceRecognition", "content": {"image_file": ('ccsp21spring', '1.jpg')}, "origin": node.id})
 
     # BLOCKCHAIN request
+    data = {"type": "ConnectBlockChain",
+            "content": {"type": "getData", "data": {"date": datetime.today().strftime('%Y-%m-%d'), "field": "visitor"}},
+            "origin": node.id}
 
-    time.sleep(10)
-    node.stop()
+    node.send_to_node_with_resource(data)
+
+    # time.sleep(10)
+    # node.stop()
