@@ -8,7 +8,7 @@ import json
 import time
 
 from utilities import *
-from ServerNode import MyOwnPeer2PeerNode
+from WorkerNode import MyOwnPeer2PeerNode
 
 import argparse
 
