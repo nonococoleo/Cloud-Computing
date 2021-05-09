@@ -3,7 +3,6 @@ from p2pnetwork.node import Node
 import importlib
 import random
 import socket
-import time
 
 from utilities import *
 
@@ -148,7 +147,7 @@ class MyOwnPeer2PeerNode(Node):
                 self.neighbors[message["from"]] = message["content"]
             elif type == "result":
                 res = message["content"]
-                self.logger.info(f"result received for {message['request']} - {res}")
+                self.logger.info(f"result received: {res}")
             elif type == "error":
                 self.logger.warning(f"{message}")
             elif type in self.resources:
@@ -229,11 +228,12 @@ class MyOwnPeer2PeerNode(Node):
         message = {"to": data["origin"], "origin": self.id}
         if action in self.resources:
             try:
-                results = self.modules[action].main(data["content"])
-                self.logger.debug(f"action {action} results - {results}")
+                res = self.modules[action].main(data["content"])
+                self.logger.debug(f"action {action} results - {res}")
 
                 message["type"] = "result"
-                message["request"] = data["id"]
+                # message["request"] = data["id"]
+                results = {"type": action, "data": res}
                 message["content"] = results
             except Exception as e:
                 message["type"] = "error"

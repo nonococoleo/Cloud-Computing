@@ -18,9 +18,9 @@ def detect_faces(bucket, photo):
         tempDict['Gender'] = faceDetail['Gender']['Value']
         ## getting the emotion and classify as three types
         emo = faceDetail['Emotions'][0]['Type']
-        if (emo == 'SAD' or emo == 'ANGRY' or emo == 'FEAR' or emo == 'CONFUSED' or emo == 'DISGUSTED'):
+        if emo == 'SAD' or emo == 'ANGRY' or emo == 'FEAR' or emo == 'CONFUSED' or emo == 'DISGUSTED':
             tempDict['Emotions'] = 'Negtive'
-        elif (emo == 'HAPPY'):
+        elif emo == 'HAPPY':
             tempDict['Emotions'] = 'Positive'
         else:
             tempDict['Emotions'] = 'Mild'

@@ -3,7 +3,7 @@ from p2pnetwork.node import Node
 import importlib
 import random
 import socket
-import time
+from datetime import datetime
 
 from utilities import *
 
@@ -148,12 +148,13 @@ class MyOwnPeer2PeerNode(Node):
                 self.neighbors[message["from"]] = message["content"]
             elif type == "result":
                 res = message["content"]
-                self.logger.info(f"result received for {message['request']} - {res}")
-                count = count_people(res["faceDetails"])
-                count['date'] = 'test'
-                message = {'type': "ConnectBlockChain", "origin": self.id,
-                           "content": {'type': "publishData", 'data': count}}
-                self.send_to_node_with_resource(message)
+                self.logger.info(f"result received: {res}")
+                if res["type"] == "FaceRecognition":
+                    count = count_people(res["data"]["faceDetails"])
+                    count['date'] = datetime.today().strftime('%Y-%m-%d')
+                    message = {'type': "ConnectBlockChain", "origin": self.id,
+                               "content": {'type': "publishData", 'data': count}}
+                    self.send_to_node_with_resource(message)
             elif type == "error":
                 self.logger.warning(f"{message}")
             else:

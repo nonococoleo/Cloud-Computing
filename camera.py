@@ -1,5 +1,3 @@
-import boto3
-import botocore
 from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
 from uuid import uuid4
@@ -7,7 +5,6 @@ from uuid import uuid4
 import sys
 import threading
 import json
-import time
 
 from utilities import *
 
@@ -167,19 +164,9 @@ class Camera:
         self.shutdown_flag.set()
 
     def send_image(self, file):
-        s3 = boto3.client('s3',
-                          aws_access_key_id='AKIASZTGMVDZGAN5L3B2',
-                          aws_secret_access_key='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',
-                          )
         bucket = args.bucket
-        obj_name = f'{self.id}-{time.time()}.jpg'
-        try:
-            s3.upload_file(file, bucket, obj_name)
-        except botocore.exceptions.ClientError as e:
-            self.logger.error(str(e))
-
-        data = {"type": "image", "content": {"image_file": (bucket, obj_name)}, "origin": self.id,
-                "id": get_md5(file)}
+        obj_name = upload_image(self.id, file, bucket)
+        data = {"type": "image", "content": {"image_file": (bucket, obj_name)}, "origin": self.id}
         c.publish("camera/image", json.dumps(data))
         self.logger.info("image uploaded.")
 

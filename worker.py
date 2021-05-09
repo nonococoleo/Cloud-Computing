@@ -5,7 +5,6 @@ from uuid import uuid4
 import sys
 import threading
 import json
-import time
 
 from utilities import *
 from WorkerNode import MyOwnPeer2PeerNode
@@ -39,7 +38,7 @@ connected_node = node.connect_with_node("127.0.0.1", 10000)
 
 def send_message(message):
     data = {"type": "FaceRecognition", "content": message['content'], "origin": node.id,
-            "to": connected_node.id, "id": message['id']}
+            "to": connected_node.id}
     node.send_to_node(connected_node, data)
 
 
