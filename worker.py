@@ -1,6 +1,6 @@
 import boto3
 import botocore
-from awscrt import io, mqtt, auth, http
+from awscrt import io, mqtt
 from awsiot import mqtt_connection_builder
 from uuid import uuid4
 
@@ -27,7 +27,6 @@ parser.add_argument('-d', '--dest', default='127.0.0.1', type=str,
 parser.add_argument('-p', '--port', default=20000, type=int,
                     help='CHANGE THIS')
 
-
 # Using globals to simplify sample code
 args = parser.parse_args()
 
@@ -38,6 +37,7 @@ node = MyOwnPeer2PeerNode(host, port, [])
 
 node.start()
 connected_node = node.connect_with_node("127.0.0.1", 10000)
+
 
 def send_message(message):
     data = {"type": "FaceRecognition", "content": message['content'], "origin": node.id,
@@ -162,7 +162,6 @@ class Worker:
 
 
 if __name__ == '__main__':
-
     c = Worker()
     c.subscribe("camera/image")
     main = threading.Thread(target=c.run)

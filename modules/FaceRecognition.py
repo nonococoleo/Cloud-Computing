@@ -1,5 +1,4 @@
 import boto3
-import json
 
 
 def detect_faces(bucket, photo):
@@ -28,8 +27,7 @@ def detect_faces(bucket, photo):
         ar.append(tempDict)
         # a valid tempDict looks like {'AgeRange': 20.0, 'Gender': 'Female', 'Emotions': 'Negtive'}
 
-    res = dict()
-    res['faceDetail'] = ar
+    res = {['faceDetail']: ar}
     return res
 
 

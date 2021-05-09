@@ -4,7 +4,6 @@ import importlib
 import random
 import socket
 import time
-import os
 
 from utilities import *
 
@@ -184,6 +183,7 @@ class MyOwnPeer2PeerNode(Node):
         self.logger.warning("Unknown node having resource, send to neighbor instead")
         n = self.choose_random_neighbor(exclude=[data.get("origin"), data.get("from")])
         if n is not None:
+            data["to"] = n.id
             if self.send_to_node(n, data):
                 self.logger.info(f"Message sent to node {n.id}")
                 return True
