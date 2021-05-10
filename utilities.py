@@ -3,6 +3,8 @@ import hashlib
 import boto3
 import time
 
+import config
+
 
 def get_logger(name, level=logging.INFO):
     logger = logging.getLogger(name)
@@ -38,11 +40,14 @@ def count_people(data):
 
 
 def upload_image(owner, file, bucket):
-    s3 = boto3.client('s3',
-                      aws_access_key_id='AKIASZTGMVDZGAN5L3B2',
-                      aws_secret_access_key='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',
-                      )
+    s3 = get_boto_client('s3')
     bucket = bucket
     obj_name = f'{owner}-{time.time()}.jpg'
     s3.upload_file(file, bucket, obj_name)
     return obj_name
+
+
+def get_boto_client(type, region=None):
+    cred = config.aws
+    return boto3.client(type, aws_access_key_id=cred["access_key_id"], aws_secret_access_key=cred["secret_access_key"],
+                        region_name=region)

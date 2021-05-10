@@ -29,7 +29,7 @@ parser.add_argument('--proxy-host', help="Hostname for proxy to connect to. Note
                                          "you will likely need to set --root-ca to the ca for your proxy.")
 parser.add_argument('--proxy-port', type=int, default=8080, help="Port for proxy to connect to.")
 
-parser.add_argument('--bucket', type=str, default='ccsp21spring', help="Amazon S3 bucket to store images")
+parser.add_argument('--bucket', type=str, default='ccsp21proj2', help="Amazon S3 bucket to store images")
 
 parser.add_argument('--interval', type=int, default=10, help="Amazon S3 bucket to store images")
 
@@ -121,7 +121,7 @@ class Camera:
         data = json.loads(payload_decoded)
         self.logger.debug("Received message from topic '{}': {}".format(topic, data))
         if data["type"] == "manage":
-            self.interval = data["content"]["interval"]
+            self.interval = data["data"]["interval"]
             self.logger.info(f"change interval to {self.interval}")
         else:
             self.logger.error(f"action {data['type']} not supported.")

@@ -31,11 +31,11 @@ if __name__ == '__main__':
 
     # ML request
     file = "files/images/1.jpg"
-    bucket = "ccsp21spring"
+    bucket = "ccsp21proj2"
     obj_name = upload_image("user", file, bucket)
 
     node.send_to_node_with_resource(
-        {"type": "FaceRecognition", "content": {"image_file": ('ccsp21spring', '1.jpg')}, "origin": node.id})
+        {"type": "FaceRecognition", "content": {"image_file": (bucket, obj_name)}, "origin": node.id})
 
     # BLOCKCHAIN request
     data = {"type": "ConnectBlockChain",

@@ -1,12 +1,8 @@
-import boto3
+from utilities import *
 
 
 def detect_faces(bucket, photo):
-    client = boto3.client('rekognition',
-                          region_name='us-east-2',
-                          aws_access_key_id='AKIARAQKMHEBYCZBBY5R',
-                          aws_secret_access_key='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'
-                          )
+    client = get_boto_client('rekognition', 'us-east-2')
     response = client.detect_faces(Image={'S3Object': {'Bucket': bucket, 'Name': photo}}, Attributes=['ALL'])
     # print(response)
     ar = []
@@ -38,5 +34,9 @@ def main(request):
 
 
 if __name__ == "__main__":
-    res = main({"image_file": ('ccsp21spring', '1.jpg')})
+    file = "files/images/1.jpg"
+    bucket = "ccsp21proj2"
+    obj_name = upload_image("user", file, bucket)
+
+    res = main({"image_file": (bucket, obj_name)})
     print(res)

@@ -37,12 +37,12 @@ def send_message(topic, message):
     time.sleep(1)
 
 
-def main(setting):
-    data = {"type": "manage", "content": setting}
+def main(settings):
+    data = {"type": "manage", "data": settings}
     send_message("camera/manage", json.dumps(data))
     return True
 
 
 if __name__ == '__main__':
-    res = main({"type": "manage", "content": {"interval": 50}})
+    res = main({"type": "manage", "data": {"interval": 50}})
     print(res)
