@@ -3,6 +3,7 @@ from awsiot import mqtt_connection_builder
 from uuid import uuid4
 
 import sys
+import signal
 import threading
 import json
 

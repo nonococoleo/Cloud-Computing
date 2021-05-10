@@ -3,6 +3,7 @@ from awsiot import mqtt_connection_builder
 from uuid import uuid4
 
 import sys
+import signal
 import threading
 import json
 
@@ -147,7 +148,10 @@ if __name__ == '__main__':
     main = threading.Thread(target=c.run)
     main.start()
 
-    # time.sleep(30)
-    # c.shutdown()
-    # main.join()
-    # node.stop()
+    signal_handler = lambda sig, frame: node.stop()
+
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.pause()
+
+    c.shutdown()
+    main.join()

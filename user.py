@@ -1,3 +1,4 @@
+import signal
 from datetime import datetime
 
 from utilities import *
@@ -44,5 +45,7 @@ if __name__ == '__main__':
 
     node.send_to_node_with_resource(data)
 
-    # time.sleep(10)
-    # node.stop()
+    signal_handler = lambda sig, frame: node.stop()
+
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.pause()

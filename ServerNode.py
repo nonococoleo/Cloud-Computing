@@ -65,6 +65,8 @@ class MyOwnPeer2PeerNode(Node):
         self.terminate_flag.set()
 
     def shutdown(self):
+        self.delete_closed_connections()
+
         for t in self.nodes_inbound:
             t.send({"type": "shutdown"})
             # t.sock.shutdown(2)
@@ -120,16 +122,16 @@ class MyOwnPeer2PeerNode(Node):
 
     def delete_closed_connections(self):
         for n in self.nodes_inbound:
-            if n.terminate_flag.is_set() or n.sock._closed:
-                self.inbound_node_disconnected(n)
+            if n.terminate_flag.is_set():
+                # self.inbound_node_disconnected(n.id)
                 n.join()
                 del self.nodes_inbound[self.nodes_inbound.index(n)]
                 if n.id in self.neighbors:
                     self.neighbors.pop(n.id)
 
         for n in self.nodes_outbound:
-            if n.terminate_flag.is_set() or n.sock._closed:
-                self.outbound_node_disconnected(n)
+            if n.terminate_flag.is_set():
+                # self.outbound_node_disconnected(n.id)
                 n.join()
                 del self.nodes_outbound[self.nodes_outbound.index(n)]
                 if n.id in self.neighbors:
@@ -254,11 +256,11 @@ class MyOwnPeer2PeerNode(Node):
     def inbound_node_connected(self, node):
         self.logger.info("inbound_node_connected: " + node.id)
 
-    def inbound_node_disconnected(self, node):
-        self.logger.info("inbound_node_disconnected: " + node.id)
+    def inbound_node_disconnected(self, id):
+        self.logger.info("inbound_node_disconnected: " + id)
 
-    def outbound_node_disconnected(self, node):
-        self.logger.info("outbound_node_disconnected: " + node.id)
+    def outbound_node_disconnected(self, id):
+        self.logger.info("outbound_node_disconnected: " + id)
 
     def node_disconnect_with_outbound_node(self, node):
         self.logger.debug("node wants to disconnect with other outbound node: " + node.id)

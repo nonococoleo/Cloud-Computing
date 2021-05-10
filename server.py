@@ -1,3 +1,5 @@
+import signal
+
 from ServerNode import MyOwnPeer2PeerNode
 
 import argparse
@@ -26,5 +28,7 @@ if __name__ == '__main__':
     node.start()
     node.connect_with_node("127.0.0.1", 10000)
 
-    # node.send_to_nodes({"type": "test"})
-    # node.stop()
+    signal_handler = lambda sig, frame: node.stop()
+
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.pause()
