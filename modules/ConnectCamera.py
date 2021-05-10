@@ -6,9 +6,9 @@ from awsiot import mqtt_connection_builder
 from uuid import uuid4
 
 endpoint = 'a2xwqc692xy96k-ats.iot.us-east-2.amazonaws.com'
-cert = 'certs/20cd5b421f-certificate.pem.crt'
-key = 'certs/20cd5b421f-private.pem.key'
-root_ca = 'certs/AmazonRootCA1.pem'
+cert = 'files/certs/20cd5b421f-certificate.pem.crt'
+key = 'files/certs/20cd5b421f-private.pem.key'
+root_ca = 'files/certs/AmazonRootCA1.pem'
 client_id = str(uuid4())
 
 

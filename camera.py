@@ -13,11 +13,11 @@ import argparse
 parser = argparse.ArgumentParser(description="Send and receive messages through and MQTT connection.")
 parser.add_argument('--endpoint', default='a2xwqc692xy96k-ats.iot.us-east-2.amazonaws.com',
                     help="Your AWS IoT custom endpoint, not including a port. ")
-parser.add_argument('--cert', default='certs/20cd5b421f-certificate.pem.crt',
+parser.add_argument('--cert', default='files/certs/20cd5b421f-certificate.pem.crt',
                     help="File path to your client certificate, in PEM format.")
-parser.add_argument('--key', default='certs/20cd5b421f-private.pem.key',
+parser.add_argument('--key', default='files/certs/20cd5b421f-private.pem.key',
                     help="File path to your private key, in PEM format.")
-parser.add_argument('--root-ca', default='certs/AmazonRootCA1.pem',
+parser.add_argument('--root-ca', default='files/certs/AmazonRootCA1.pem',
                     help="File path to root certificate authority, in PEM format. ")
 parser.add_argument('--client-id', default=str(uuid4()), help="Client ID for MQTT connection.")
 parser.add_argument('--use-websocket', default=False, action='store_true',
