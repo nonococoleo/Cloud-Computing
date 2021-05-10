@@ -195,7 +195,10 @@ class MyOwnPeer2PeerNode(Node):
             else:
                 return False
 
-        self.logger.error(f"No available nodes")
+        self.logger.error(f"No available nodes with {data['type']}")
+        message = {'to': data["origin"], "type": "error",
+                   "content": {"error": f"No available nodes with {data['type']}"}}
+        self.send_to_node_by_id(data["origin"], message)
         return False
 
     def send_to_node_by_id(self, id, data):
@@ -218,6 +221,8 @@ class MyOwnPeer2PeerNode(Node):
                 return False
 
         self.logger.error(f"Fail to send to node {id}")
+        message = {'to': data["origin"], "type": "error", "content": {"error": f"Fail to send to node {id}"}}
+        self.send_to_node_by_id(data["origin"], message)
         return False
 
     def choose_random_neighbor(self, exclude=None):
