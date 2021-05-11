@@ -27,5 +27,5 @@ python3 user.py -p 10002
 #### note
 * message format in the p2p network
 ```json
-{"type": "string","content": "dict","from": "string", "to": "string","origin": "string","id": "string"}
+{"type": "string","content": "dict","from": "string", "to": "string","origin": "string"}
 ```

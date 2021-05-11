@@ -12,7 +12,7 @@ def publish(content):
                                   arg5=content["emo_pos"], arg6=content["emo_mild"])
     stream = subprocess.Popen(bash, shell=True, stdout=subprocess.PIPE, text=True)
     stdout = stream.stdout.read()
-    return {"res":True}
+    return True
 
 
 def get(content):
@@ -20,18 +20,18 @@ def get(content):
     field = ["visiter", "male", "female", "emo_neg", "emo_pos", "emo_mild"]
 
     bash = getDataBash.format(file=getData, net=network, date=content["date"])
-    #stream = os.popen(bash)
+    # stream = os.popen(bash)
     stream = subprocess.Popen(bash, shell=True, stdout=subprocess.PIPE, text=True)
     stdout = stream.stdout.read()
     val = stdout.split()[-8:-2]
-        #print(val)
+    # print(val)
     res = {}
     if val[0].isdigit():
         for i in range(6):
             res[field[i]] = val[i]
     else:
-        res  = "File Not Exist"
-    return {"res":res}
+        res = "File Not Exist"
+    return res
 
 
 def main(data):
@@ -42,7 +42,7 @@ def main(data):
     else:
         raise NotImplementedError
 
-    return res
+    return {"results": res}
 
 
 if __name__ == '__main__':

@@ -23,14 +23,13 @@ def detect_faces(bucket, photo):
         ar.append(tempDict)
         # a valid tempDict looks like {'AgeRange': 20.0, 'Gender': 'Female', 'Emotions': 'Negtive'}
 
-    res = {'faceDetails': ar}
-    return res
+    return ar
 
 
 def main(request):
     bucket, file = request["image_file"]
     res = detect_faces(bucket, file)
-    return res
+    return {'faceDetails': res}
 
 
 if __name__ == "__main__":

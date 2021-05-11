@@ -178,6 +178,9 @@ if __name__ == '__main__':
     main = threading.Thread(target=c.run)
     main.start()
 
-    time.sleep(30)
-    c.shutdown()
+    signal_handler = lambda sig, frame: c.shutdown()
+
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.pause()
+
     main.join()
