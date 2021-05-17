@@ -2,7 +2,7 @@ import subprocess
 
 getData = "getData.js"
 publishData = "publishData.js"
-network = "abs_ccprojchain_hc2885_hc2885"
+network = "CHANGE THIS"
 
 
 def publish(content):
@@ -47,11 +47,10 @@ def main(data):
 
 if __name__ == '__main__':
     # test publish
-    '''res = main({"type": "publishData",
-                "data": {"date": "June1", "visitor": "50", "male": "20", "female": "100", "emo_neg": "10",
-                         "emo_pos": "20", "emo_mild": "30"}})
-    print(res)'''
+    res = main({"type": "publishData",
+                "data": {"date": '2021-05-17', "visitor": "50", "male": "20", "female": "100", "emo_neg": "10", "emo_pos": "20", "emo_mild": "30"}})
+    print(res)
 
     # test get
-    res = main({"type": "getData", "data": {"date": "May3"}})
+    res = main({"type": "getData", "data": {"date": '2021-05-17'}})
     print(res)

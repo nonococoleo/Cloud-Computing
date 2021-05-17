@@ -15,7 +15,7 @@ def detect_faces(bucket, photo):
         ## getting the emotion and classify as three types
         emo = faceDetail['Emotions'][0]['Type']
         if emo == 'SAD' or emo == 'ANGRY' or emo == 'FEAR' or emo == 'CONFUSED' or emo == 'DISGUSTED':
-            tempDict['Emotions'] = 'Negtive'
+            tempDict['Emotions'] = 'Negative'
         elif emo == 'HAPPY':
             tempDict['Emotions'] = 'Positive'
         else:
@@ -34,7 +34,7 @@ def main(request):
 
 if __name__ == "__main__":
     file = "files/images/1.jpg"
-    bucket = "ccsp21proj2"
+    bucket = "CHANGE THIS"
     obj_name = upload_image("user", file, bucket)
 
     res = main({"image_file": (bucket, obj_name)})

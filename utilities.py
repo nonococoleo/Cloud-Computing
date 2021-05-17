@@ -33,7 +33,7 @@ def count_people(data):
             pos += 1
         elif i["Emotions"] == "Mild":
             mild += 1
-        elif i["Emotions"] == "Negitive":
+        elif i["Emotions"] == "Negative":
             neg += 1
     return {"visitor": str(male + female), "male": str(male), "female": str(female), "emo_neg": str(neg),
             "emo_pos": str(pos), "emo_mild": str(mild)}

@@ -13,10 +13,14 @@ from WorkerNode import MyOwnPeer2PeerNode
 import argparse
 
 parser = argparse.ArgumentParser(description="Send and receive messages through and MQTT connection.")
-parser.add_argument('--endpoint', required=True, help="Your AWS IoT custom endpoint, not including a port. ")
-parser.add_argument('--cert', help="File path to your client certificate, in PEM format.")
-parser.add_argument('--key', help="File path to your private key, in PEM format.")
-parser.add_argument('--root-ca', help="File path to root certificate authority, in PEM format. ")
+parser.add_argument('--endpoint', default='CHANGE THIS',
+                    help="Your AWS IoT custom endpoint, not including a port. ")
+parser.add_argument('--cert', default='CHANGE THIS',
+                    help="File path to your client certificate, in PEM format.")
+parser.add_argument('--key', default='CHANGE THIS',
+                    help="File path to your private key, in PEM format.")
+parser.add_argument('--root-ca', default='CHANGE THIS',
+                    help="File path to root certificate authority, in PEM format. ")
 parser.add_argument('--client-id', default=str(uuid4()), help="Client ID for MQTT connection.")
 
 parser.add_argument('-d', '--dest', default='127.0.0.1', type=str,

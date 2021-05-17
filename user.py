@@ -31,16 +31,16 @@ if __name__ == '__main__':
     node.send_to_node_with_resource(data)
 
     # ML request
-    file = "files/images/1.jpg"
-    bucket = "ccsp21proj2"
-    obj_name = upload_image("user", file, bucket)
-
-    node.send_to_node_with_resource(
-        {"type": "FaceRecognition", "content": {"image_file": (bucket, obj_name)}, "origin": node.id})
+    # file = "files/images/1.jpg"
+    # bucket = 'CHANGE THIS'
+    # obj_name = upload_image("user", file, bucket)
+    #
+    # node.send_to_node_with_resource(
+    #     {"type": "FaceRecognition", "content": {"image_file": (bucket, obj_name)}, "origin": node.id})
 
     # BLOCKCHAIN request
     data = {"type": "ConnectBlockChain",
-            "content": {"type": "getData", "data": {"date": datetime.today().strftime('%Y-%m-%d'), "field": "visitor"}},
+            "content": {"type": "getData", "data": {"date": '2021-05-17', "field": "visitor"}},
             "origin": node.id}
 
     node.send_to_node_with_resource(data)

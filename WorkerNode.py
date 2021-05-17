@@ -39,8 +39,7 @@ class MyOwnPeer2PeerNode(Node):
                 connected_node_id = connection.recv(4096).decode('utf-8')
                 connection.send(self.id.encode('utf-8'))
 
-                thread_client = self.create_new_connection(connection, connected_node_id, client_address[0],
-                                                           client_address[1])
+                thread_client = self.create_new_connection(connection, connected_node_id, client_address[0], client_address[1])
                 thread_client.start()
 
                 message = {"type": "resource", "content": self.resources, "to": connected_node_id}

@@ -12,27 +12,27 @@ from utilities import *
 import argparse
 
 parser = argparse.ArgumentParser(description="Send and receive messages through and MQTT connection.")
-parser.add_argument('--endpoint', default='a2xwqc692xy96k-ats.iot.us-east-2.amazonaws.com',
+parser.add_argument('--endpoint', default='CHANGE THIS',
                     help="Your AWS IoT custom endpoint, not including a port. ")
-parser.add_argument('--cert', default='files/certs/20cd5b421f-certificate.pem.crt',
+parser.add_argument('--cert', default='CHANGE THIS',
                     help="File path to your client certificate, in PEM format.")
-parser.add_argument('--key', default='files/certs/20cd5b421f-private.pem.key',
+parser.add_argument('--key', default='CHANGE THIS',
                     help="File path to your private key, in PEM format.")
-parser.add_argument('--root-ca', default='files/certs/AmazonRootCA1.pem',
+parser.add_argument('--root-ca', default='CHANGE THIS',
                     help="File path to root certificate authority, in PEM format. ")
 parser.add_argument('--client-id', default=str(uuid4()), help="Client ID for MQTT connection.")
 parser.add_argument('--use-websocket', default=False, action='store_true',
                     help="To use a websocket instead of raw mqtt. If you " +
                          "specify this option you must specify a region for signing, you can also enable proxy mode.")
-parser.add_argument('--signing-region', default='us-east-2', help="If you specify --use-web-socket, this " +
+parser.add_argument('--signing-region', default='CHANGE THIS', help="If you specify --use-web-socket, this " +
                                                                   "is the region that will be used for computing the Sigv4 signature")
 parser.add_argument('--proxy-host', help="Hostname for proxy to connect to. Note: if you use this feature, " +
                                          "you will likely need to set --root-ca to the ca for your proxy.")
 parser.add_argument('--proxy-port', type=int, default=8080, help="Port for proxy to connect to.")
 
-parser.add_argument('--bucket', type=str, default='ccsp21proj2', help="Amazon S3 bucket to store images")
+parser.add_argument('--bucket', type=str, default='CHANGE THIS', help="Amazon S3 bucket to store images")
 
-parser.add_argument('--interval', type=int, default=10, help="Amazon S3 bucket to store images")
+parser.add_argument('--interval', type=int, default=100, help="Amazon S3 bucket to store images")
 
 # Using globals to simplify sample code
 args = parser.parse_args()
