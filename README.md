@@ -32,10 +32,11 @@ python3 user.py -p 10002
 
 #### installation guide
 1.set up your own blockchain  
-    * Since we cannot include the blockchain service in the github, you can first setup the blockchain service after clone the code  
-    * Using the VS code to setup the blockchain
-    * https://docs.microsoft.com/en-us/azure/blockchain/service/connect-vscode
-    * Generate a basic blockchain project and replace the Helloblockchain.sol with the file from our project  
-    * Right click the .sol file and build the contract then right click to deploy the contract   
-    * Replace network field in ConnenctBlockChain.py with the value in truffle-config.js start with "abs_xxxxxxxx"
-    * Then you could test the blockchain module by running the main method in ConnenctBlockChain.py   
+
+- Since we cannot include the blockchain service in the github, you can first setup the blockchain service after clone the code  
+- Using the VS code to setup the blockchain
+- https://docs.microsoft.com/en-us/azure/blockchain/service/connect-vscode
+- Generate a basic blockchain project and replace the Helloblockchain.sol with the file from our project  
+- Right click the .sol file and build the contract then right click to deploy the contract   
+- Replace network field in ConnenctBlockChain.py with the value in truffle-config.js start with "abs_xxxxxxxx"
+- Then you could test the blockchain module by running the main method in ConnenctBlockChain.py   
