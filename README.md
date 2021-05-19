@@ -1,5 +1,25 @@
 # Cloud-Computing
-#### Before build
+#### installation guide
+1. set up your own blockchain  
+
+- Since we cannot include the blockchain service in the github, you can first setup the blockchain service after clone the code  
+- Using the VS code to setup the blockchain
+- https://docs.microsoft.com/en-us/azure/blockchain/service/connect-vscode
+- Generate a basic blockchain project and replace the Helloblockchain.sol with the file from our project  
+- Right click the .sol file and build the contract then right click to deploy the contract   
+- Replace network field in ConnenctBlockChain.py with the value in truffle-config.js start with "abs_xxxxxxxx"
+- Then you could test the blockchain module by running the main method in ConnenctBlockChain.py   
+
+2. create a s3 bucket, follow the example below:
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-bucket.html
+
+3. create a IOT device, follow the example below:
+https://docs.aws.amazon.com/iot/latest/developerguide/using-laptop-as-device.html
+
+4. create AWS IAM user with privilege to S3 and Rekognition service, follow the example below
+https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_billing.html
+
+#### Modify settings
 1. Config AWS account access keys, create ./config.py and insert the example code with your keys. Note the account must have an S3 storage availble and AWS Rekognition service intialized.
 ```python
 aws = {'access_key_id': 'your key', 'secret_access_key': 'your key'}
@@ -30,6 +50,7 @@ parser.add_argument('--root-ca', default='keys/my_aws_iam_root_key',
 ```
 
 4. Now all the prerequisite is settled. However, to make the project fully runnable, we also need a blockchain module, we put the blockchain module at the bottom of this doc, Since it is relativly complicate. 
+
 #### example
 1. Build a P2P network
 ```bash
@@ -59,14 +80,3 @@ python3 user.py -p 10002
 ```json
 {"type": "string","content": "dict","from": "string", "to": "string","origin": "string"}
 ```
-
-#### installation guide
-1.set up your own blockchain  
-
-- Since we cannot include the blockchain service in the github, you can first setup the blockchain service after clone the code  
-- Using the VS code to setup the blockchain
-- https://docs.microsoft.com/en-us/azure/blockchain/service/connect-vscode
-- Generate a basic blockchain project and replace the Helloblockchain.sol with the file from our project  
-- Right click the .sol file and build the contract then right click to deploy the contract   
-- Replace network field in ConnenctBlockChain.py with the value in truffle-config.js start with "abs_xxxxxxxx"
-- Then you could test the blockchain module by running the main method in ConnenctBlockChain.py   
